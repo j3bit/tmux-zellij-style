@@ -32,13 +32,12 @@ It is useful for:
 ## Notes
 
 - `run-demo.sh` is the live demo runner.
-- `render-demo.sh` is the fully automated MP4 pipeline.
+- `render-demo.sh` is the fully automated demo render pipeline.
 - Keystroke captions are rendered automatically during the demo itself.
-- If the local `ffmpeg` build supports subtitle filters, `render-demo.sh` can also burn the generated `.srt` file into the final MP4.
 
-## Render MP4 automatically
+## Render the demo automatically
 
-If `vhs`, `ffmpeg`, and `tmux` are installed, you can render an MP4 with burned-in keystroke captions:
+If `vhs`, `ffmpeg`, and `tmux` are installed, you can regenerate the demo assets automatically:
 
 ```bash
 bash ~/.config/tmux/demo/render-demo.sh
@@ -46,9 +45,7 @@ bash ~/.config/tmux/demo/render-demo.sh
 
 Outputs:
 
-- `demo/output/tmux-zellij-style-demo.raw.mp4`
-- `demo/output/tmux-zellij-style-demo.mp4`
 - `demo/output/tmux-zellij-style-demo.gif`
 - `demo/output/render-demo.srt`
 
-Only the GIF is intended to stay tracked in git for the top-level README demo. The MP4 files are local render artifacts.
+Only the GIF is intended to stay tracked in git for the top-level README demo.
