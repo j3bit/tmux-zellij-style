@@ -4,6 +4,20 @@ Use `tmux` with a more `zellij`-like flow.
 
 This repo keeps the original tmux power model, but adds a launcher-oriented keymap so pane, tab, resize, move, scroll, and session actions feel closer to zellij.
 
+## Version Requirement
+
+Automatic loading from `~/.config/tmux/tmux.conf` requires tmux `3.2` or newer.
+
+tmux `3.2` added support for trying:
+
+- `$XDG_CONFIG_HOME/tmux/tmux.conf`
+- `~/.config/tmux/tmux.conf`
+
+Older tmux versions primarily expect `~/.tmux.conf`, so if you are on tmux `< 3.2`, either:
+
+- copy this config to `~/.tmux.conf`, or
+- start tmux with `-f ~/.config/tmux/tmux.conf`
+
 ## What It Tries To Do
 
 - Keep `Ctrl-b` as the raw tmux prefix
@@ -44,6 +58,12 @@ Copy the config into your tmux config path:
 mkdir -p ~/.config/tmux
 cp tmux.conf ~/.config/tmux/tmux.conf
 cp tmux_keys.txt ~/.config/tmux/tmux_keys.txt
+```
+
+For tmux `< 3.2`, use legacy path instead:
+
+```bash
+cp tmux.conf ~/.tmux.conf
 ```
 
 Reload from an existing tmux session:
