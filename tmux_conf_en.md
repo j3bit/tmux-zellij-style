@@ -26,6 +26,8 @@ In practice, you can think about it like this:
 
 If you open a new tmux session, the config applies immediately.
 
+For themes, `~/.config/tmux/theme/current.conf` is loaded first if it exists. If it does not exist, tmux falls back to `~/.config/tmux/theme/one-half-dark.conf`.
+
 To reload it inside an existing session, run:
 
 ```bash
@@ -446,6 +448,15 @@ Fallbacks:
 Run this directly:
 
 ```bash
+tmux source-file ~/.config/tmux/tmux.conf
+```
+
+### If you want to switch themes
+
+The simplest approach is to point `theme/current.conf` at the theme you want.
+
+```bash
+ln -sf ~/.config/tmux/theme/dracula.conf ~/.config/tmux/theme/current.conf
 tmux source-file ~/.config/tmux/tmux.conf
 ```
 

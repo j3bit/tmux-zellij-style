@@ -34,6 +34,7 @@ This is not a full zellij clone. It is a tmux configuration that borrows the sam
 - [tmux_conf_kr.md](tmux_conf_kr.md): full manual in Korean
 - [tmux_conf_en.md](tmux_conf_en.md): full manual in English
 - [tmux_keys.txt](tmux_keys.txt): quick popup help text
+- [theme/](theme): reusable tmux theme files
 
 ## Main Keys
 
@@ -41,6 +42,52 @@ This is not a full zellij clone. It is a tmux configuration that borrows the sam
 - `Ctrl-b`: normal tmux prefix
 - `Ctrl-g ?`: open the keymap hints popup
 - `Ctrl-g o r`: reload the config from session mode
+
+## Themes
+
+This repo now separates layout/behavior from color themes.
+
+Bundled tmux themes:
+
+- `atom-one-dark`
+- `atom-one-light`
+- `catppuccin-latte`
+- `catppuccin-mocha`
+- `dracula`
+- `gruvbox-dark`
+- `nord`
+- `one-half-dark`
+- `one-half-light`
+- `solarized-dark`
+
+Codex CLI overlap confirmed locally from the installed `codex` binary:
+
+- `catppuccin-latte`
+- `catppuccin-mocha`
+- `dracula`
+- `gruvbox-dark`
+- `nord`
+- `one-half-dark`
+- `one-half-light`
+- `solarized-dark`
+
+`atom-one-dark` and `atom-one-light` are included as adjacent popular themes, but they do not appear to be Codex CLI built-in names.
+
+### Theme selection strategy
+
+`tmux.conf` uses this rule:
+
+- if `~/.config/tmux/theme/current.conf` exists, source that
+- otherwise fall back to `~/.config/tmux/theme/one-half-dark.conf`
+
+That makes theme switching simple and keeps `tmux.conf` stable.
+
+Example:
+
+```bash
+ln -sf ~/.config/tmux/theme/dracula.conf ~/.config/tmux/theme/current.conf
+tmux source-file ~/.config/tmux/tmux.conf
+```
 
 ## Modes
 
@@ -59,6 +106,7 @@ Copy the config into your tmux config path:
 mkdir -p ~/.config/tmux
 cp tmux.conf ~/.config/tmux/tmux.conf
 cp tmux_keys.txt ~/.config/tmux/tmux_keys.txt
+cp -R theme ~/.config/tmux/theme
 ```
 
 For tmux `< 3.2`, use legacy path instead:

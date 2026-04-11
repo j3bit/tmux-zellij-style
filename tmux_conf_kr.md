@@ -26,6 +26,8 @@
 
 새 tmux 세션을 열면 설정이 바로 적용됩니다.
 
+테마는 `~/.config/tmux/theme/current.conf`가 있으면 그 파일을 먼저 읽고, 없으면 기본값으로 `~/.config/tmux/theme/one-half-dark.conf`를 읽습니다.
+
 이미 열려 있는 tmux 세션에 다시 반영하려면 아래 명령을 실행하시면 됩니다.
 
 ```bash
@@ -448,6 +450,15 @@ tmux source-file ~/.config/tmux/tmux.conf
 ```
 
 위 명령을 직접 다시 실행해 보시면 됩니다.
+
+### 테마를 바꾸고 싶은 경우
+
+가장 단순한 방법은 `theme/current.conf`를 원하는 테마 파일로 연결하는 것입니다.
+
+```bash
+ln -sf ~/.config/tmux/theme/dracula.conf ~/.config/tmux/theme/current.conf
+tmux source-file ~/.config/tmux/tmux.conf
+```
 
 ### 새 세션부터 완전히 반영하고 싶은 경우
 
