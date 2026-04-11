@@ -31,7 +31,8 @@ This is not a full zellij clone. It is a tmux configuration that borrows the sam
 ## Files
 
 - [tmux.conf](tmux.conf): the actual tmux configuration
-- [tmux_conf.md](tmux_conf.md): full manual in Korean
+- [tmux_conf_kr.md](tmux_conf_kr.md): full manual in Korean
+- [tmux_conf_en.md](tmux_conf_en.md): full manual in English
 - [tmux_keys.txt](tmux_keys.txt): quick popup help text
 
 ## Main Keys
