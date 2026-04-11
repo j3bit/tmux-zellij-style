@@ -92,6 +92,7 @@ Ctrl-g ?
 ### 새 pane 만들기
 
 - `Ctrl-Alt-n`: 현재 경로 기준으로 아래쪽 split
+- `Ctrl-Alt-N`: 현재 경로 기준으로 오른쪽 split
 
 ## 모드 진입 방법
 
