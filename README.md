@@ -6,15 +6,26 @@ If you like tmux's power but miss zellij's “enter a mode, then do a thing” f
 
 It keeps raw tmux intact, but adds a launcher-driven workflow for panes, tabs, resizing, scrolling, moving, sessions, and theme selection.
 
-## Why this exists
+## Why (the hell) this exists
 
-Plain tmux is powerful, but it can feel a little too prefix-and-punctuation heavy.
+Truthfully, I am more of a zellij person.
 
-This config tries to answer a simple question:
+I genuinely prefer zellij's interaction philosophy: enter a mode, do a thing, get out. It feels cleaner in my head than stock tmux, which can sometimes feel a little too prefix-and-punctuation heavy.
 
-> What if tmux felt more like zellij, without giving up tmux?
+But after enough real use, especially with AI-agent-heavy workflows like Codex CLI, I kept running into the same conclusion:
 
-So instead of memorizing a pile of unrelated bindings, you mostly think like this:
+- I liked zellij's UX more
+- I trusted tmux's behavior more
+
+tmux is not always prettier, and it is definitely not more charming, but it has a reputation for being boring in the best possible way: stable, scriptable, predictable, and very hard to knock over.
+
+So this config is basically the compromise I actually wanted:
+
+> keep tmux's reliability, steal as much of zellij's "enter a mode, then do a thing" mental model as possible
+
+Instead of giving up on zellij's philosophy, I tried to bring that philosophy into a tmux setup I could trust under heavier, messier, more automation-driven use.
+
+In practice, that means instead of memorizing a pile of unrelated bindings, you mostly think like this:
 
 - `Ctrl-g` → “what kind of thing do I want to do?”
 - `p` / `t` / `r` / `s` / `m` / `o` → “pane / tab / resize / scroll / move / session”
