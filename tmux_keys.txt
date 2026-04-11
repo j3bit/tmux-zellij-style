@@ -11,8 +11,6 @@ Quick actions
 Ctrl-g ?      show this hints popup
 Ctrl-g q      detach
 Ctrl-g Q      kill current session (confirm)
-Ctrl-b R      reload ~/.config/tmux/tmux.conf
-
 Modes
 -----
 Ctrl-g p      pane mode
@@ -88,5 +86,6 @@ Notes
 -----
 - Enter / Esc / Ctrl-g usually leave current mode.
 - Status bar right side shows current key table.
+- Reload config from session mode with Ctrl-g o r.
 - Some zellij-only features do not exist in tmux:
   floating panes, pinned panes, plugin manager UI.

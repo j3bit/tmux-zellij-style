@@ -32,10 +32,10 @@
 tmux source-file ~/.config/tmux/tmux.conf
 ```
 
-또는 현재 설정 기준으로 `Ctrl-b` 다음에 `R`을 누르셔도 됩니다.
+또는 session 모드로 들어가서 `r`을 누르셔도 됩니다.
 
 ```text
-Ctrl-b R
+Ctrl-g o r
 ```
 
 커스텀 키맵 힌트를 빠르게 보시려면 아래 키를 누르시면 됩니다.
@@ -348,8 +348,6 @@ Ctrl-g o
 - `Ctrl-b x`: pane 닫기
 - `Ctrl-b %`: 가로 split
 - `Ctrl-b "`: 세로 split
-- `Ctrl-b R`: `~/.config/tmux/tmux.conf` 다시 로드
-
 ## 화면 구성 설명
 
 ### 상단 status bar
@@ -414,7 +412,7 @@ Ctrl-g s
 ### 설정 바꾼 뒤 즉시 반영하기
 
 ```text
-Ctrl-b R
+Ctrl-g o r
 ```
 
 ## zellij와 아직 다른 점

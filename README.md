@@ -40,7 +40,7 @@ This is not a full zellij clone. It is a tmux configuration that borrows the sam
 - `Ctrl-g`: open the zellij-style launcher
 - `Ctrl-b`: normal tmux prefix
 - `Ctrl-g ?`: open the keymap hints popup
-- `Ctrl-b R`: reload the config
+- `Ctrl-g o r`: reload the config from session mode
 
 ## Modes
 
@@ -73,10 +73,10 @@ Reload from an existing tmux session:
 tmux source-file ~/.config/tmux/tmux.conf
 ```
 
-Or use:
+Or use session mode:
 
 ```text
-Ctrl-b R
+Ctrl-g o r
 ```
 
 ## Notes

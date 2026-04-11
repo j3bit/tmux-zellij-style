@@ -32,10 +32,10 @@ To reload it inside an existing session, run:
 tmux source-file ~/.config/tmux/tmux.conf
 ```
 
-Or use the built-in reload binding:
+Or use session mode:
 
 ```text
-Ctrl-b R
+Ctrl-g o r
 ```
 
 To open the custom keymap hints popup quickly, press:
@@ -348,8 +348,6 @@ Examples:
 - `Ctrl-b x`: kill pane
 - `Ctrl-b %`: horizontal split
 - `Ctrl-b "`: vertical split
-- `Ctrl-b R`: reload `~/.config/tmux/tmux.conf`
-
 ## Screen layout notes
 
 ### Top status bar
@@ -414,7 +412,7 @@ Then:
 ### Reload the config after editing
 
 ```text
-Ctrl-b R
+Ctrl-g o r
 ```
 
 ## What still differs from zellij
