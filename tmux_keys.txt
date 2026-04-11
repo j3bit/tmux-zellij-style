@@ -1,0 +1,92 @@
+tmux keymap hints
+=================
+
+Main idea
+---------
+Ctrl-g        open zellij-style launcher
+Ctrl-b        tmux prefix
+
+Quick actions
+-------------
+Ctrl-g ?      show this hints popup
+Ctrl-g q      detach
+Ctrl-g Q      kill current session (confirm)
+Ctrl-b R      reload ~/.config/tmux/tmux.conf
+
+Modes
+-----
+Ctrl-g p      pane mode
+Ctrl-g t      tab mode
+Ctrl-g r      resize mode
+Ctrl-g s      scroll / copy mode
+Ctrl-g m      move mode
+Ctrl-g o      session mode
+
+Global keys
+-----------
+Ctrl-Alt-h/j/k/l or arrows   move focus
+Ctrl-Alt-n                   split pane down
+
+Pane mode
+---------
+h/j/k/l or arrows   move focus
+d or n              split down
+r                   split right
+f                   zoom toggle
+s                   tiled layout
+c                   rename pane title
+x                   kill pane
+z                   pane border title toggle
+Tab                 last pane
+
+Tab mode
+--------
+h/j/k/l or arrows   previous / next tab
+1..9                jump to tab
+n                   new tab
+r                   rename tab
+x                   kill tab
+s                   synchronize panes toggle
+b                   break pane into new tab
+[ / ]               move tab left / right
+Tab                 last tab
+
+Resize mode
+-----------
+h/j/k/l or arrows   resize active pane
+H/J/K/L             reverse-side resize
+
+Scroll / copy mode
+------------------
+h/j/k/l or arrows   move
+PageUp/PageDown     page scroll
+Ctrl-u / Ctrl-d     half-page scroll
+v                   begin selection
+y                   copy selection and exit
+q                   exit copy mode
+Esc                 exit copy mode
+
+Move mode
+---------
+h/j/k/l or arrows   swap with adjacent pane
+n                   rotate window down
+p                   rotate window up
+Tab                 rotate window down
+
+Session mode
+------------
+d                   detach
+n                   rename current session
+r                   reload ~/.config/tmux/tmux.conf
+s                   session chooser
+w                   window / pane chooser
+x                   kill session chooser
+X                   detach other client chooser
+?                   show this hints popup
+
+Notes
+-----
+- Enter / Esc / Ctrl-g usually leave current mode.
+- Status bar right side shows current key table.
+- Some zellij-only features do not exist in tmux:
+  floating panes, pinned panes, plugin manager UI.
