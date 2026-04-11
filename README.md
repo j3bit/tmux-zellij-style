@@ -61,8 +61,6 @@ This is **not** trying to be a full zellij clone. Floating panes, pinned panes, 
 
 ![tmux-zellij-style demo](demo/output/tmux-zellij-style-demo.gif)
 
-The demo is fully scripted from the files in [demo/](demo), so it can be regenerated without manual driving.
-
 ## Install
 
 Clone the repo into your tmux config path:
