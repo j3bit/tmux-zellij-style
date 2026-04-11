@@ -84,9 +84,29 @@ This is not a full zellij clone. It is a tmux configuration that borrows the sam
 - `Ctrl-g ?`: open the keymap hints popup
 - `Ctrl-g o r`: reload the config from session mode
 
+## Modes
+
+- `Ctrl-g p`: pane mode
+- `Ctrl-g t`: tab mode
+- `Ctrl-g r`: resize mode
+- `Ctrl-g s`: scroll/copy mode
+- `Ctrl-g m`: move mode
+- `Ctrl-g o`: session mode
+
+## Quick Start
+
+Common flows:
+
+- Split panes: `Ctrl-g p d` or `Ctrl-g p r`
+- Move between panes: `Ctrl-g p h/j/k/l` or `Ctrl-Alt-h/j/k/l`
+- Open a new tab: `Ctrl-g t n`
+- Resize a pane: `Ctrl-g r h/j/k/l`
+- Copy from scrollback: `Ctrl-g s`, then `v`, then `y`
+- Reload config: `Ctrl-g o r`
+
 ## Themes
 
-This repo now separates layout/behavior from color themes.
+This repo separates layout/behavior from color themes.
 
 Bundled tmux themes:
 
@@ -117,7 +137,7 @@ Codex CLI overlap confirmed locally from the installed `codex` binary:
 - if `~/.config/tmux/theme/current.conf` exists, source that
 - otherwise fall back to `~/.config/tmux/theme/one-half-dark.conf`
 
-That makes theme switching simple and keeps `tmux.conf` stable.
+That keeps theme switching simple while leaving `tmux.conf` stable.
 
 Example:
 
@@ -125,15 +145,6 @@ Example:
 ln -sf ~/.config/tmux/theme/dracula.conf ~/.config/tmux/theme/current.conf
 tmux source-file ~/.config/tmux/tmux.conf
 ```
-
-## Modes
-
-- `Ctrl-g p`: pane mode
-- `Ctrl-g t`: tab mode
-- `Ctrl-g r`: resize mode
-- `Ctrl-g s`: scroll/copy mode
-- `Ctrl-g m`: move mode
-- `Ctrl-g o`: session mode
 
 ## Notes
 
