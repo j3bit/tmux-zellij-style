@@ -14,7 +14,8 @@ It starts an isolated tmux server on a separate socket, creates a demo session, 
 - pane navigation
 - zoom
 - tab creation
-- scroll/copy mode
+- commands typed in the new tab
+- synchronize-panes
 - pane movement
 - config reload
 
@@ -47,4 +48,7 @@ Outputs:
 
 - `demo/output/tmux-zellij-style-demo.raw.mp4`
 - `demo/output/tmux-zellij-style-demo.mp4`
+- `demo/output/tmux-zellij-style-demo.gif`
 - `demo/output/render-demo.srt`
+
+Only the GIF is intended to stay tracked in git for the top-level README demo. The MP4 files are local render artifacts.
