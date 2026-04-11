@@ -1,3 +1,5 @@
 .DS_Store
 .omx/
 theme/current.conf
+demo/output/*
+!demo/output/tmux-zellij-style-demo.mp4

@@ -57,6 +57,14 @@ This is **not** trying to be a full zellij clone. Floating panes, pinned panes, 
 | Plugin / UI ecosystem | tmux-style | tmux-style | zellij-style |
 | Best fit | tmux purists | tmux users who want zellij-like flow | users who want full zellij model |
 
+## Demo
+
+Watch the automated MP4 demo:
+
+- [tmux-zellij-style-demo.mp4](demo/output/tmux-zellij-style-demo.mp4)
+
+The demo is fully scripted from the files in [demo/](demo), so it can be regenerated without manual driving.
+
 ## Install
 
 Clone the repo into your tmux config path:
