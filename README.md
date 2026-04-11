@@ -96,20 +96,32 @@ tmux source-file ~/.config/tmux/tmux.conf
 
 ## Install
 
-Copy the config into your tmux config path:
+Clone the repo into your tmux config path:
 
 ```bash
-mkdir -p ~/.config/tmux
-cp tmux.conf ~/.config/tmux/tmux.conf
-cp tmux_keys.txt ~/.config/tmux/tmux_keys.txt
-cp -R theme ~/.config/tmux/theme
+git clone https://github.com/j3bit/tmux-zellij-style.git ~/.config/tmux
 ```
 
-For tmux `< 3.2`, use legacy path instead:
+If you already have a different tmux repo or dotfiles layout, you can also clone elsewhere and symlink the main config directory:
 
 ```bash
-cp tmux.conf ~/.tmux.conf
+git clone https://github.com/j3bit/tmux-zellij-style.git ~/path/to/tmux-zellij-style
+mkdir -p ~/.config
+ln -sfn ~/path/to/tmux-zellij-style ~/.config/tmux
 ```
+
+For tmux `< 3.2`, use the legacy config path instead:
+
+```bash
+ln -sfn ~/.config/tmux/tmux.conf ~/.tmux.conf
+```
+
+Avoid managing both `~/.tmux.conf` and `~/.config/tmux/tmux.conf` with different contents at the same time.
+
+On modern tmux, both files may be loaded, and overlapping settings can override each other. If you already have a `~/.tmux.conf`, the safest options are:
+
+- keep only one real config source, or
+- reduce `~/.tmux.conf` to a simple handoff such as `source-file ~/.config/tmux/tmux.conf`
 
 Reload from an existing tmux session:
 
