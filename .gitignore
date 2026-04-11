@@ -2,4 +2,5 @@
 .omx/
 theme/current.conf
 demo/output/*
+!demo/output/tmux-zellij-style-demo.gif
 !demo/output/tmux-zellij-style-demo.mp4
