@@ -4,8 +4,6 @@ These files override the theme-specific style settings used by [tmux.conf](../tm
 
 ## Bundled themes
 
-- `atom-one-dark.conf`
-- `atom-one-light.conf`
 - `catppuccin-latte.conf`
 - `catppuccin-mocha.conf`
 - `dracula.conf`
@@ -42,5 +40,3 @@ The installed Codex CLI binary in this environment contains these built-in theme
 - `one-half-light`
 - `solarized-dark`
 - `ansi`
-
-This repo also includes `atom-one-dark` and `atom-one-light` because they are widely recognized and fit the same ecosystem well.

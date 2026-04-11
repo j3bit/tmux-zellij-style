@@ -49,8 +49,6 @@ This repo now separates layout/behavior from color themes.
 
 Bundled tmux themes:
 
-- `atom-one-dark`
-- `atom-one-light`
 - `catppuccin-latte`
 - `catppuccin-mocha`
 - `dracula`
@@ -70,8 +68,6 @@ Codex CLI overlap confirmed locally from the installed `codex` binary:
 - `one-half-dark`
 - `one-half-light`
 - `solarized-dark`
-
-`atom-one-dark` and `atom-one-light` are included as adjacent popular themes, but they do not appear to be Codex CLI built-in names.
 
 ### Theme selection strategy
 
