@@ -158,7 +158,7 @@ After pressing `Ctrl-g`, use:
 Common flows you will probably use every day:
 
 - Create a simple split layout: `Ctrl-g p r` then `Ctrl-g p d`
-- Quick split without launcher: `Ctrl-Alt-n` for down, `Ctrl-Alt-m` for right
+- Quick split without launcher: `Ctrl-Alt-n` for down, `Ctrl-Alt-r` for right
 - Move between panes: `Ctrl-g p h/j/k/l` or `Ctrl-Alt-h/j/k/l`
 - Toggle zoom on the current pane: `Ctrl-g p f`
 - Open a new tab: `Ctrl-g t n`

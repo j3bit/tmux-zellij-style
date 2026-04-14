@@ -92,7 +92,7 @@ Behavior notes:
 ### Create a new pane
 
 - `Ctrl-Alt-n`: split downward using the current pane path
-- `Ctrl-Alt-m`: split right using the current pane path
+- `Ctrl-Alt-r`: split right using the current pane path
 
 ## How to enter modes
 

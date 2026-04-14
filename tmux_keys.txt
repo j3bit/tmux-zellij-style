@@ -24,7 +24,7 @@ Global keys
 -----------
 Ctrl-Alt-h/j/k/l or arrows   move focus
 Ctrl-Alt-n                   split pane down
-Ctrl-Alt-m                   split pane right
+Ctrl-Alt-r                   split pane right
 
 Pane mode
 ---------
