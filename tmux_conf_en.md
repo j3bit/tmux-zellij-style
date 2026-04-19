@@ -264,6 +264,7 @@ The default feel is vi-style:
 
 - `v`: begin selection
 - `y`: copy selection and exit
+- click: clear the current selection and stay in copy mode
 - mouse drag: copy the dragged selection and stay in copy mode
 - `Esc`: exit copy mode
 - `q`: exit copy mode
