@@ -264,6 +264,7 @@ Ctrl-g s
 
 - `v`: 선택 시작
 - `y`: 선택 복사 후 종료
+- 마우스 드래그: 드래그한 영역 복사 후 copy mode 유지
 - `Esc`: copy mode 종료
 - `q`: copy mode 종료
 
