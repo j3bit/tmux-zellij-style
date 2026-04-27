@@ -58,7 +58,7 @@ H/J/K/L             reverse-side resize
 Scroll / copy mode
 ------------------
 h/j/k/l or arrows   move
-PageUp/PageDown     page scroll
+PageUp/PageDown     half-page scroll
 Ctrl-u / Ctrl-d     half-page scroll
 v                   begin selection
 y                   copy selection and exit

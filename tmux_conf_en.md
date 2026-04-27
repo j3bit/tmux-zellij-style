@@ -249,6 +249,8 @@ Enter:
 Ctrl-g s
 ```
 
+You can also press `PageUp` or `PageDown` from the root table to enter copy-mode and scroll by half a page.
+
 This drops you directly into tmux `copy-mode`. The mode does not exit automatically just because you scroll to the bottom.
 
 ### Movement
@@ -257,8 +259,7 @@ The default feel is vi-style:
 
 - `h j k l`
 - arrow keys
-- `PageUp`
-- `PageDown`
+- `PageUp` / `PageDown`: half-page up/down
 
 ### Select / copy
 
