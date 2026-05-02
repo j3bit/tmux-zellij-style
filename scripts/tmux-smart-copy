@@ -1,0 +1,130 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+INPUT_FILE="$(mktemp)"
+OUTPUT_FILE="$(mktemp)"
+trap 'rm -f "$INPUT_FILE" "$OUTPUT_FILE"' EXIT
+
+cat >"$INPUT_FILE"
+
+if [[ $# -gt 0 && -z "${TMUX_SMART_COPY_TARGET:-}" ]]; then
+  TMUX_SMART_COPY_TARGET="$1"
+fi
+
+SOCKET_PATH=""
+PANE_WIDTH=""
+SELECTION_START_X=""
+SELECTION_START_Y=""
+SELECTION_END_X=""
+SELECTION_END_Y=""
+
+TMUX_TARGET_ARGS=()
+if [[ -n "${TMUX_SMART_COPY_TARGET:-}" ]]; then
+  TMUX_TARGET_ARGS=(-t "$TMUX_SMART_COPY_TARGET")
+fi
+
+if metadata="$(tmux display-message "${TMUX_TARGET_ARGS[@]}" -p '#{socket_path} #{pane_width} #{selection_start_x} #{selection_start_y} #{selection_end_x} #{selection_end_y}' 2>/dev/null)"; then
+  read -r SOCKET_PATH PANE_WIDTH SELECTION_START_X SELECTION_START_Y SELECTION_END_X SELECTION_END_Y <<EOF_META
+$metadata
+EOF_META
+fi
+
+if command -v python3 >/dev/null 2>&1; then
+  SOCKET_PATH="$SOCKET_PATH" \
+  TMUX_SMART_COPY_TARGET="${TMUX_SMART_COPY_TARGET:-}" \
+  PANE_WIDTH="$PANE_WIDTH" \
+  SELECTION_START_X="$SELECTION_START_X" \
+  SELECTION_START_Y="$SELECTION_START_Y" \
+  SELECTION_END_X="$SELECTION_END_X" \
+  SELECTION_END_Y="$SELECTION_END_Y" \
+  python3 - "$INPUT_FILE" "$OUTPUT_FILE" <<'PY'
+import os
+import subprocess
+import sys
+from pathlib import Path
+
+input_path = Path(sys.argv[1])
+output_path = Path(sys.argv[2])
+
+text = input_path.read_bytes().decode("utf-8", "surrogateescape").replace("\r\n", "\n")
+
+
+def as_int(name):
+    try:
+        value = os.environ.get(name, "")
+        return int(value) if value != "" else None
+    except ValueError:
+        return None
+
+
+socket_path = os.environ.get("SOCKET_PATH", "")
+target = os.environ.get("TMUX_SMART_COPY_TARGET", "")
+pane_width = as_int("PANE_WIDTH")
+start_x = as_int("SELECTION_START_X")
+start_y = as_int("SELECTION_START_Y")
+end_x = as_int("SELECTION_END_X")
+end_y = as_int("SELECTION_END_Y")
+
+# If tmux selection metadata is unavailable, preserve copy semantics exactly.
+if not pane_width or start_x is None or start_y is None or end_x is None or end_y is None or "\n" not in text:
+    output_path.write_bytes(text.encode("utf-8", "surrogateescape"))
+    sys.exit(0)
+
+# Standard selections are emitted top-to-bottom.  The first emitted screen row
+# may begin after column 0; later wrapped rows begin at column 0.  Use tmux's
+# own wrap flags below instead of guessing from row width.
+top_y = min(start_y, end_y)
+first_x = start_x if start_y == top_y else end_x
+
+lines = text.split("\n")
+out = []
+line_count = len(lines)
+
+for index, line in enumerate(lines):
+    out.append(line)
+    if index == line_count - 1:
+        break
+
+    row = top_y + index
+
+    # Ask tmux whether this screen-row boundary is a real newline or a soft
+    # wrap.  capture-pane -J uses tmux's own wrap flags, so full-width hard
+    # lines stay line-oriented while true soft wraps are joined.
+    try:
+        cmd = ["tmux"]
+        if socket_path:
+            cmd += ["-S", socket_path]
+        cmd += ["capture-pane", "-p", "-M", "-J"]
+        if target:
+            cmd += ["-t", target]
+        cmd += ["-S", str(row), "-E", str(row + 1)]
+        captured = subprocess.run(cmd, check=True, stdout=subprocess.PIPE, stderr=subprocess.DEVNULL).stdout.decode(
+            "utf-8", "surrogateescape"
+        )
+        without_final_lf = captured[:-1] if captured.endswith("\n") else captured
+        tmux_says_soft_wrap = "\n" not in without_final_lf
+    except Exception:
+        # If tmux cannot answer, preserve bytes rather than guessing and
+        # potentially deleting a hard newline.
+        tmux_says_soft_wrap = False
+
+    if tmux_says_soft_wrap:
+        # A soft wrap is a screen boundary, not copied content.  Do not inject
+        # a space here; long URLs, paths, hashes, and CJK text must keep their
+        # original bytes across the wrap boundary.
+        continue
+    else:
+        out.append("\n")
+
+normalized = "".join(out)
+output_path.write_bytes(normalized.encode("utf-8", "surrogateescape"))
+PY
+else
+  # Without Python, keep tmux's original copy bytes rather than flattening
+  # line-oriented selections and losing structure.
+  cp "$INPUT_FILE" "$OUTPUT_FILE"
+fi
+
+# Let tmux own the paste buffer and terminal clipboard through set-clipboard/OSC 52.
+# This keeps the copy path OS-agnostic instead of shelling out to pbcopy/wl-copy/xclip.
+tmux load-buffer -w "$OUTPUT_FILE" 2>/dev/null || tmux load-buffer "$OUTPUT_FILE"
