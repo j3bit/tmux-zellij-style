@@ -10,7 +10,7 @@ Quick actions
 -------------
 Ctrl-g ?      show this hints popup
 Ctrl-g q      detach
-Ctrl-g Q      kill current session (confirm)
+Ctrl-g Q      kill current session and return to shell (confirm)
 Modes
 -----
 Ctrl-g p      pane mode
