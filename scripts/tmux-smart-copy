@@ -28,6 +28,7 @@ if command -v python3 >/dev/null 2>&1; then
   python3 - "$INPUT_FILE" "$OUTPUT_FILE" <<'PY'
 import os
 import sys
+import unicodedata
 from pathlib import Path
 
 input_path = Path(sys.argv[1])
@@ -59,6 +60,15 @@ if not pane_width or start_x is None or start_y is None or end_x is None or end_
 # may begin after column 0; later wrapped rows begin at column 0.  Only fold a
 # newline when that emitted row reaches the pane edge, which is tmux's signal
 # for a likely soft wrap.  Short rows keep their real newline.
+def cell_width(value):
+    width = 0
+    for char in value:
+        if unicodedata.combining(char) or unicodedata.category(char) in {"Cf", "Mn", "Me"}:
+            continue
+        width += 2 if unicodedata.east_asian_width(char) in {"F", "W"} else 1
+    return width
+
+
 top_y = min(start_y, end_y)
 first_x = start_x if start_y == top_y else end_x
 
@@ -72,13 +82,13 @@ for index, line in enumerate(lines):
         break
 
     expected_width = pane_width - first_x if index == 0 else pane_width
-    likely_soft_wrap = expected_width > 0 and len(line) >= expected_width
+    likely_soft_wrap = expected_width > 0 and cell_width(line) >= expected_width
 
     if likely_soft_wrap:
-        next_line = lines[index + 1]
-        if line.endswith((" ", "\t")) or next_line.startswith((" ", "\t")):
-            continue
-        out.append(" ")
+        # A soft wrap is a screen boundary, not copied content.  Do not inject
+        # a space here; long URLs, paths, hashes, and CJK text must keep their
+        # original bytes across the wrap boundary.
+        continue
     else:
         out.append("\n")
 
