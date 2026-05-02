@@ -7,19 +7,31 @@ trap 'rm -f "$INPUT_FILE" "$OUTPUT_FILE"' EXIT
 
 cat >"$INPUT_FILE"
 
+if [[ $# -gt 0 && -z "${TMUX_SMART_COPY_TARGET:-}" ]]; then
+  TMUX_SMART_COPY_TARGET="$1"
+fi
+
+SOCKET_PATH=""
 PANE_WIDTH=""
 SELECTION_START_X=""
 SELECTION_START_Y=""
 SELECTION_END_X=""
 SELECTION_END_Y=""
 
-if metadata="$(tmux display-message -p '#{pane_width} #{selection_start_x} #{selection_start_y} #{selection_end_x} #{selection_end_y}' 2>/dev/null)"; then
-  read -r PANE_WIDTH SELECTION_START_X SELECTION_START_Y SELECTION_END_X SELECTION_END_Y <<EOF_META
+TMUX_TARGET_ARGS=()
+if [[ -n "${TMUX_SMART_COPY_TARGET:-}" ]]; then
+  TMUX_TARGET_ARGS=(-t "$TMUX_SMART_COPY_TARGET")
+fi
+
+if metadata="$(tmux display-message "${TMUX_TARGET_ARGS[@]}" -p '#{socket_path} #{pane_width} #{selection_start_x} #{selection_start_y} #{selection_end_x} #{selection_end_y}' 2>/dev/null)"; then
+  read -r SOCKET_PATH PANE_WIDTH SELECTION_START_X SELECTION_START_Y SELECTION_END_X SELECTION_END_Y <<EOF_META
 $metadata
 EOF_META
 fi
 
 if command -v python3 >/dev/null 2>&1; then
+  SOCKET_PATH="$SOCKET_PATH" \
+  TMUX_SMART_COPY_TARGET="${TMUX_SMART_COPY_TARGET:-}" \
   PANE_WIDTH="$PANE_WIDTH" \
   SELECTION_START_X="$SELECTION_START_X" \
   SELECTION_START_Y="$SELECTION_START_Y" \
@@ -27,8 +39,8 @@ if command -v python3 >/dev/null 2>&1; then
   SELECTION_END_Y="$SELECTION_END_Y" \
   python3 - "$INPUT_FILE" "$OUTPUT_FILE" <<'PY'
 import os
+import subprocess
 import sys
-import unicodedata
 from pathlib import Path
 
 input_path = Path(sys.argv[1])
@@ -45,6 +57,8 @@ def as_int(name):
         return None
 
 
+socket_path = os.environ.get("SOCKET_PATH", "")
+target = os.environ.get("TMUX_SMART_COPY_TARGET", "")
 pane_width = as_int("PANE_WIDTH")
 start_x = as_int("SELECTION_START_X")
 start_y = as_int("SELECTION_START_Y")
@@ -57,18 +71,8 @@ if not pane_width or start_x is None or start_y is None or end_x is None or end_
     sys.exit(0)
 
 # Standard selections are emitted top-to-bottom.  The first emitted screen row
-# may begin after column 0; later wrapped rows begin at column 0.  Only fold a
-# newline when that emitted row reaches the pane edge, which is tmux's signal
-# for a likely soft wrap.  Short rows keep their real newline.
-def cell_width(value):
-    width = 0
-    for char in value:
-        if unicodedata.combining(char) or unicodedata.category(char) in {"Cf", "Mn", "Me"}:
-            continue
-        width += 2 if unicodedata.east_asian_width(char) in {"F", "W"} else 1
-    return width
-
-
+# may begin after column 0; later wrapped rows begin at column 0.  Use tmux's
+# own wrap flags below instead of guessing from row width.
 top_y = min(start_y, end_y)
 first_x = start_x if start_y == top_y else end_x
 
@@ -81,10 +85,30 @@ for index, line in enumerate(lines):
     if index == line_count - 1:
         break
 
-    expected_width = pane_width - first_x if index == 0 else pane_width
-    likely_soft_wrap = expected_width > 0 and cell_width(line) >= expected_width
+    row = top_y + index
 
-    if likely_soft_wrap:
+    # Ask tmux whether this screen-row boundary is a real newline or a soft
+    # wrap.  capture-pane -J uses tmux's own wrap flags, so full-width hard
+    # lines stay line-oriented while true soft wraps are joined.
+    try:
+        cmd = ["tmux"]
+        if socket_path:
+            cmd += ["-S", socket_path]
+        cmd += ["capture-pane", "-p", "-M", "-J"]
+        if target:
+            cmd += ["-t", target]
+        cmd += ["-S", str(row), "-E", str(row + 1)]
+        captured = subprocess.run(cmd, check=True, stdout=subprocess.PIPE, stderr=subprocess.DEVNULL).stdout.decode(
+            "utf-8", "surrogateescape"
+        )
+        without_final_lf = captured[:-1] if captured.endswith("\n") else captured
+        tmux_says_soft_wrap = "\n" not in without_final_lf
+    except Exception:
+        # If tmux cannot answer, preserve bytes rather than guessing and
+        # potentially deleting a hard newline.
+        tmux_says_soft_wrap = False
+
+    if tmux_says_soft_wrap:
         # A soft wrap is a screen boundary, not copied content.  Do not inject
         # a space here; long URLs, paths, hashes, and CJK text must keep their
         # original bytes across the wrap boundary.
