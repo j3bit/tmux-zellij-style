@@ -1,0 +1,58 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+input="$(cat)"
+
+if command -v python3 >/dev/null 2>&1; then
+  normalized="$(printf '%s' "$input" | python3 -c '
+import re
+import sys
+
+text = sys.stdin.read().replace("\r\n", "\n")
+
+# Keep paragraph breaks and common structured lines, but fold single newlines
+# that tmux often inserts at soft-wrap boundaries.
+blocks = re.split(r"\n{2,}", text)
+out = []
+marker = re.compile(r"^\s*(?:[-*•#→▶]|\d+[.)]|Phase\b|@|```|~~~)")
+
+for block in blocks:
+    lines = block.split("\n")
+    merged = []
+    buf = ""
+
+    for line in lines:
+        stripped = line.strip()
+        if not stripped:
+            if buf:
+                merged.append(buf.rstrip())
+                buf = ""
+            continue
+
+        if marker.match(stripped):
+            if buf:
+                merged.append(buf.rstrip())
+            buf = line.rstrip()
+        else:
+            if buf:
+                buf = f"{buf.rstrip()} {line.lstrip()}"
+            else:
+                buf = line.rstrip()
+
+    if buf:
+        merged.append(buf.rstrip())
+
+    out.append("\n".join(merged))
+
+normalized = "\n\n".join(out)
+# Collapse horizontal whitespace introduced while joining, without touching newlines.
+normalized = re.sub(r"[ \t]+", " ", normalized)
+sys.stdout.write(normalized)
+')"
+else
+  normalized="$(printf '%s' "$input" | tr '\n' ' ' | sed 's/[[:space:]][[:space:]]*/ /g')"
+fi
+
+# Let tmux own the paste buffer and terminal clipboard through set-clipboard/OSC 52.
+# This keeps the copy path OS-agnostic instead of shelling out to pbcopy/wl-copy/xclip.
+tmux set-buffer -w -- "$normalized" 2>/dev/null || tmux set-buffer -- "$normalized"
