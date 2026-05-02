@@ -20,7 +20,7 @@ In practice, you can think about it like this:
 - `Ctrl-b`: normal tmux prefix
 - `Ctrl-g ?`: custom keymap hints popup
 - `Ctrl-g q`: detach current client
-- `Ctrl-g Q`: confirm kill for current session
+- `Ctrl-g Q`: confirm kill for current session and return to shell
 
 ## Quick start
 
@@ -70,7 +70,7 @@ The rough mapping looks like this:
 | `Ctrl-g` then `o` | session mode |
 | `Ctrl-g` then `?` | custom keymap hints popup |
 | `Ctrl-g` then `q` | detach current client |
-| `Ctrl-g` then `Q` | confirm kill for current session |
+| `Ctrl-g` then `Q` | confirm kill for current session and return to shell |
 
 ## Global keys that always work
 
@@ -106,7 +106,7 @@ Direct exit actions:
 
 ```text
 Ctrl-g q   -> detach
-Ctrl-g Q   -> kill current session (confirm)
+Ctrl-g Q   -> kill current session and return to shell (confirm)
 ```
 
 To leave a mode, use:

@@ -20,7 +20,7 @@
 - `Ctrl-b`: tmux 기본 prefix
 - `Ctrl-g ?`: 커스텀 키맵 힌트 팝업
 - `Ctrl-g q`: 현재 client detach
-- `Ctrl-g Q`: 현재 session 종료 확인
+- `Ctrl-g Q`: 현재 session 종료 후 원래 shell로 복귀 확인
 
 ## 빠른 시작
 
@@ -70,7 +70,7 @@ Ctrl-g ?
 | `Ctrl-g` 후 `o` | session 모드 |
 | `Ctrl-g` 후 `?` | 커스텀 키맵 힌트 팝업 |
 | `Ctrl-g` 후 `q` | 현재 client detach |
-| `Ctrl-g` 후 `Q` | 현재 session 종료 확인 |
+| `Ctrl-g` 후 `Q` | 현재 session 종료 후 원래 shell로 복귀 확인 |
 
 ## 항상 동작하는 글로벌 키
 
@@ -106,7 +106,7 @@ Ctrl-g -> p/t/r/s/m/o
 
 ```text
 Ctrl-g q   -> detach
-Ctrl-g Q   -> kill current session (confirm)
+Ctrl-g Q   -> kill current session and return to shell (confirm)
 ```
 
 모드에서 빠져나올 때는 아래 키를 사용하시면 됩니다.

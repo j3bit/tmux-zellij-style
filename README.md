@@ -88,7 +88,7 @@ If that already feels more natural than stock tmux, the config is doing its job.
 | `Ctrl-b` | Use normal tmux bindings |
 | `Ctrl-g ?` | Open popup key hints |
 | `Ctrl-g q` | Detach current client |
-| `Ctrl-g Q` | Kill current session with confirmation |
+| `Ctrl-g Q` | Kill current session and return to shell with confirmation |
 | `Ctrl-g o r` | Reload `tmux.conf` |
 
 ## Modes
