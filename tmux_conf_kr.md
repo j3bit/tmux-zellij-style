@@ -249,6 +249,8 @@ zellij의 대문자 방향 감각을 흉내 내기 위해 대문자도 넣어 �
 Ctrl-g s
 ```
 
+root table에서도 `PageUp` 또는 `PageDown`을 누르면 copy-mode에 들어가 반 페이지씩 스크롤합니다.
+
 이 키는 바로 tmux `copy-mode`로 들어갑니다. 끝까지 스크롤하더라도 모드가 자동으로 종료되지는 않습니다.
 
 ### 이동
@@ -257,8 +259,7 @@ Ctrl-g s
 
 - `h j k l`
 - 방향키
-- `PageUp`
-- `PageDown`
+- `PageUp` / `PageDown`: 반 페이지 위/아래
 
 ### 선택 / 복사
 
