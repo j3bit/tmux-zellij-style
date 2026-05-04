@@ -76,6 +76,7 @@ if not pane_width or start_x is None or start_y is None or end_x is None or end_
 # Standard selections are emitted top-to-bottom. Use tmux's own wrap flags
 # below instead of guessing from row width.
 top_y = min(start_y, end_y)
+top_x = start_x if start_y == top_y else end_x
 
 # selection_*_y is an absolute line number that includes scrollback history,
 # while capture-pane -S/-E is relative to the current screen with history rows
@@ -107,7 +108,10 @@ def find_line_end_row(start_row, copied_line):
     # first soft-wrap boundary inside that line.
     for end_row in range(start_row, bottom_capture_y + 1):
         try:
-            if capture_joined(start_row, end_row) == copied_line:
+            captured = capture_joined(start_row, end_row)
+            if captured == copied_line:
+                return end_row
+            if start_row == top_capture_y and top_x > 0 and captured.endswith(copied_line):
                 return end_row
         except Exception:
             return None
