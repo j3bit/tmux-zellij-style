@@ -271,6 +271,8 @@ The default feel is vi-style:
 
 Because `set-clipboard on` is enabled, clipboard integration can work with the system clipboard if your terminal and OS support it.
 
+A small copy helper normalizes terminal soft wraps so wrapped visual rows paste as one line, while real line breaks from the pane output are preserved.
+
 ---
 
 ## 5. Move mode

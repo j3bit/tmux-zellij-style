@@ -78,6 +78,8 @@ Try these in order:
 5. Resize a pane: `Ctrl-g r h/j/k/l`
 6. Copy from scrollback: `Ctrl-g s`, then `v`, then `y`
 
+Copying also includes a small normalization helper that removes terminal soft-wrap joins while keeping real line breaks intact.
+
 If that already feels more natural than stock tmux, the config is doing its job.
 
 ## Core Keys
